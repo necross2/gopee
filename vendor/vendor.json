@@ -1,4 +1,6 @@
-"comment": "",
+{
+	"comment": "",
 	"ignore": "test",
 	"package": [],
-"rootPath": "github.com/necross2/gopee"
+	"rootPath": "github.com/necross2/gopee"
+}
