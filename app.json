@@ -2,11 +2,9 @@
   "name": "Proxy App in go",
   "description": "Proxy App in go",
   "keywords": [
-    "getting-started",
-    "go",
-    "sample",
-    "example"
+    "proxy",
+    "go"
   ],
-  "website": "https://github.com/necross2/gopee",
-  "repository": "https://github.com/necross2/gopee"
+  "website": "http://github.com/necross2/gopee",
+  "repository": "http://github.com/necross2/gopee"
 }
