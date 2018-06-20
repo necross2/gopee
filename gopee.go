@@ -111,7 +111,7 @@ func ProxyRequest(r *http.Request, w http.ResponseWriter) {
 			}
 		}
 	}
-	// log.Println(uri.String())
+	 log.Println(uri.String())
 	if uri == nil {
 		// return a 404
 		http.NotFound(w, r)
