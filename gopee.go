@@ -111,7 +111,7 @@ func ProxyRequest(r *http.Request, w http.ResponseWriter) {
 			}
 		}
 	}
-	 log.Println(uri.String())
+	// log.Println(uri.String())
 	if uri == nil {
 		// return a 404
 		http.NotFound(w, r)
@@ -163,6 +163,7 @@ func (pm *proxyManager) Fetch(w http.ResponseWriter) {
 	}
 
 	contentType := pm.resp.Header.Get("Content-Type")
+	log.Println("here: ", contentType)
 
 	// Forward response headers to client
 	copyHeader(w.Header(), pm.resp.Header)
