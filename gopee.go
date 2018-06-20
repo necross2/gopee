@@ -278,17 +278,28 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path[1:] == "" {
 		r.ParseForm()
 		enteredURL := r.FormValue("url")
-		if enteredURL != "" {
-			// Check if url attribute is set in GET / POST
-			uri, _ := url.Parse(enteredURL)
-			// prepend http if not specified
-			if uri.Scheme == "" {
-				uri.Scheme = "http"
+		accessKey := r.FormValue( "pass")
+
+		if accessKey != ""{
+			if accessKey == "1234" {
+				if enteredURL != "" {
+					// Check if url attribute is set in GET / POST
+					uri, _ := url.Parse(enteredURL)
+					// prepend http if not specified
+					if uri.Scheme == "" {
+						uri.Scheme = "http"
+					}
+					http.Redirect(w, r, "/"+encodeURL([]byte(uri.String())), 302)
+					return
+				}
+				templates.ExecuteTemplate(w, "home.html", nil)
+			} else {
+				log.Println("Invalid Key Provided")
 			}
-			http.Redirect(w, r, "/"+encodeURL([]byte(uri.String())), 302)
-			return
+		} else {
+			log.Println("No Access Key Provided")
 		}
-		templates.ExecuteTemplate(w, "home.html", nil)
+
 	} else {
 		ProxyRequest(r, w)
 	}
