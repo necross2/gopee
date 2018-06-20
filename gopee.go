@@ -296,13 +296,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 				templates.ExecuteTemplate(w, "home.html", nil)
 			} else {
 				log.Println("Invalid Key Provided")
-				templates.ExecuteTemplate(w, "error.html", nil)
+				return
 			}
 		} else {
 			log.Println("No Access Key Provided")
-			templates.ExecuteTemplate(w, "error.html", nil)
+			return
 		}
-
+		templates.ExecuteTemplate(w, "error.html", nil)
 	} else {
 		ProxyRequest(r, w)
 	}
