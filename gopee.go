@@ -296,12 +296,12 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 				templates.ExecuteTemplate(w, "home.html", nil)
 			} else {
 				log.Println("Invalid Key Provided")
-				http.Redirect(w, r, "/error.html"+encodeURL([]byte(uri.String())), 302)
+				http.Redirect(w, r, "/error.html", 302)
 				return
 			}
 		} else {
 			log.Println("No Access Key Provided")
-			http.Redirect(w, r, "/error.html"+encodeURL([]byte(uri.String())), 302)
+			http.Redirect(w, r, "/error.html", 302)
 			return
 		}
 
