@@ -35,6 +35,7 @@ var hopHeaders = map[string]bool{
 	"trailers":          true,
 	"transfer-encoding": true,
 	"upgrade":           true,
+	"Content-Length": 	true,
 }
 
 // Headers that create problem handling response
@@ -42,7 +43,7 @@ var hopHeaders = map[string]bool{
 var skipHeaders = map[string]bool{
 	"content-security-policy":             true, // sent in response
 	"content-security-policy-report-only": true, // sent in response
-	"accept-encoding":                     true, // sent in request
+	"accept-encoding":                     false, // sent in request
 	"cookie":                              true, // sent in request
 }
 
@@ -163,7 +164,6 @@ func (pm *proxyManager) Fetch(w http.ResponseWriter) {
 	}
 
 	contentType := pm.resp.Header.Get("Content-Type")
-	log.Println("here: ", contentType)
 
 	// Forward response headers to client
 	copyHeader(w.Header(), pm.resp.Header)
@@ -301,7 +301,7 @@ func main() {
 		httpPort = "8080"
 	}
 
-	sessionManager = NewManager("gopee", 600) // client session expiry set to 600s (10mins)
+	sessionManager = NewManager("gopee", 20) // client session expiry set to 600s (10mins)
 	go sessionManager.GC()
 
 	http.HandleFunc("/", homeHandler)
