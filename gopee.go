@@ -22,6 +22,7 @@ const GopeeEncPrefix = "xox"
 var reBase = regexp.MustCompile(`base +href="(.*?)"`)
 var reHTML = regexp.MustCompile(`\saction=["']?(.*?)["'\s]|\shref=["']?(.*?)["'\s]|\ssrc=["']?(.*?)["'\s]`)
 var reCSS = regexp.MustCompile(`url\(["']?(.*?)["']?\)`)
+var accessPass = "b2967b36-74e2-11e8-8af7-1c1b0d0a253c"
 
 var reBase64 = regexp.MustCompile("^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$")
 
@@ -281,7 +282,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		accessKey := r.FormValue( "pass")
 
 		if accessKey != ""{
-			if accessKey == "1234" {
+			if accessKey == accessPass {
 				if enteredURL != "" {
 					// Check if url attribute is set in GET / POST
 					uri, _ := url.Parse(enteredURL)
@@ -295,9 +296,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 				templates.ExecuteTemplate(w, "home.html", nil)
 			} else {
 				log.Println("Invalid Key Provided")
+				http.Redirect(w, r, "/error.html"+encodeURL([]byte(uri.String())), 302)
+				return
 			}
 		} else {
 			log.Println("No Access Key Provided")
+			http.Redirect(w, r, "/error.html"+encodeURL([]byte(uri.String())), 302)
+			return
 		}
 
 	} else {
