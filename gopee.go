@@ -279,26 +279,40 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		enteredURL := r.FormValue("url")
 		accessKey := r.FormValue( "pass")
-		log.Println("Request Type is: " + r.Method)
-		if accessKey != "" && r.Method != "POST"{
-			if accessKey == "b2967b36-74e2-11e8-8af7-1c1b0d0a253c" {
-				if enteredURL != "" {
-					// Check if url attribute is set in GET / POST
-					uri, _ := url.Parse(enteredURL)
-					// prepend http if not specified
-					if uri.Scheme == "" {
-						uri.Scheme = "http"
+		if r.Method == "POST"{
+			if accessKey != ""{
+				if accessKey == "b2967b36-74e2-11e8-8af7-1c1b0d0a253c" {
+					if enteredURL != "" {
+						// Check if url attribute is set in GET / POST
+						uri, _ := url.Parse(enteredURL)
+						// prepend http if not specified
+						if uri.Scheme == "" {
+							uri.Scheme = "http"
+						}
+						http.Redirect(w, r, "/"+encodeURL([]byte(uri.String())), 302)
+						return
 					}
-					http.Redirect(w, r, "/"+encodeURL([]byte(uri.String())), 302)
-					return
+					templates.ExecuteTemplate(w, "home.html", nil)
+				} else {
+					log.Println("Invalid Key Provided")
 				}
-				templates.ExecuteTemplate(w, "home.html", nil)
 			} else {
-				log.Println("Invalid Key Provided")
+				log.Println("No Access Key Provided")
 			}
 		} else {
-			log.Println("No Access Key Provided")
+			if enteredURL != "" {
+				// Check if url attribute is set in GET / POST
+				uri, _ := url.Parse(enteredURL)
+				// prepend http if not specified
+				if uri.Scheme == "" {
+					uri.Scheme = "http"
+				}
+				http.Redirect(w, r, "/"+encodeURL([]byte(uri.String())), 302)
+				return
+			}
+			templates.ExecuteTemplate(w, "home.html", nil)
 		}
+
 
 	} else {
 		ProxyRequest(r, w)
