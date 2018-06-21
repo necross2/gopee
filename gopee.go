@@ -280,7 +280,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		enteredURL := r.FormValue("url")
 		accessKey := r.FormValue( "pass")
 		log.Println("Request Type is: " + r.Method)
-		if accessKey != "" || r.Method != "GET"{
+		if accessKey != "" && r.Method != "POST"{
 			if accessKey == "b2967b36-74e2-11e8-8af7-1c1b0d0a253c" {
 				if enteredURL != "" {
 					// Check if url attribute is set in GET / POST
