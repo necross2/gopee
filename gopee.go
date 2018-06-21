@@ -24,7 +24,7 @@ var reHTML = regexp.MustCompile(`\saction=["']?(.*?)["'\s]|\shref=["']?(.*?)["'\
 var reCSS = regexp.MustCompile(`url\(["']?(.*?)["']?\)`)
 
 var reBase64 = regexp.MustCompile("^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$")
-
+var accessPass = "b2967b36-74e2-11e8-8af7-1c1b0d0a253c"
 // Hop-by-hop headers
 var hopHeaders = map[string]bool{
 	"connection":          true,
@@ -281,7 +281,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		accessKey := r.FormValue( "pass")
 		if r.Method == "POST"{
 			if accessKey != ""{
-				if accessKey == "b2967b36-74e2-11e8-8af7-1c1b0d0a253c" {
+				if accessKey == accessPass {
 					if enteredURL != "" {
 						// Check if url attribute is set in GET / POST
 						uri, _ := url.Parse(enteredURL)
